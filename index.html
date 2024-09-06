@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man</title>
+    <style>
+        body { margin: 0; display: flex; flex-direction: column; align-items: center; }
+        canvas { border: 1px solid black; }
+        .controls { display: flex; justify-content: center; margin-top: 10px; }
+        button { width: 50px; height: 50px; margin: 5px; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">
+        <button id="left">←</button>
+        <button id="up">↑</button>
+        <button id="down">↓</button>
+        <button id="right">→</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const pacmanSize = 30;
+        let pacmanX = canvas.width / 2;
+        let pacmanY = canvas.height / 2;
+        let pacmanSpeed = 5;
+
+        function drawPacman() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(pacmanX, pacmanY, pacmanSize / 2, 0.2 * Math.PI, 1.8 * Math.PI);
+            ctx.lineTo(pacmanX, pacmanY);
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+        }
+
+        function movePacman(direction) {
+            switch (direction) {
+                case 'left': pacmanX -= pacmanSpeed; break;
+                case 'up': pacmanY -= pacmanSpeed; break;
+                case 'right': pacmanX += pacmanSpeed; break;
+                case 'down': pacmanY += pacmanSpeed; break;
+            }
+            pacmanX = Math.max(pacmanSize / 2, Math.min(canvas.width - pacmanSize / 2, pacmanX));
+            pacmanY = Math.max(pacmanSize / 2, Math.min(canvas.height - pacmanSize / 2, pacmanY));
+            drawPacman();
+        }
+
+        document.getElementById('left').addEventListener('touchstart', () => movePacman('left'));
+        document.getElementById('up').addEventListener('touchstart', () => movePacman('up'));
+        document.getElementById('right').addEventListener('touchstart', () => movePacman('right'));
+        document.getElementById('down').addEventListener('touchstart', () => movePacman('down'));
+
+        drawPacman();
+    </script>
+</body>
+</html>
